@@ -1,0 +1,15 @@
+{
+  "name": "social",
+  "version": "1.0.0",
+  "description": "trending up want airtable that has realtime and malable data",
+  "main": "igAccount.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "airtable": "^0.12.2"
+  }
+}
