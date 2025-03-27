@@ -1,8 +1,8 @@
 <?php
 include 'function.php';
 
-$API_AIRTABLE = 'patJaDknA6kBVllul.293f10ca3040701e67f73879a02c2be377b42cb9ee708f87497d00f215a86bf1';
-$API_BRIGHTDATA = '154dba8a771fe6ce8d8c4099e2a52670323524004b661c9c8ecd519f14b575f7';
+$API_AIRTABLE = 'AIRTABLE_API_KEY';
+$API_BRIGHTDATA = 'BRIGHTDATA_API_KEY';
 
 $db_host = "localhost";
 $db_name = "airtable";
