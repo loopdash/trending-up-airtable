@@ -61,7 +61,7 @@ function post_gen_snapshot_id()
             }
         }
     } else {
-        echo 'No pending records found';
+        echo '';
     }
 }
 // End of Stage 2
@@ -80,7 +80,7 @@ function post_gen_snapshot_data()
         $request_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($request_list)) {
-            echo 'No request data found';
+            echo '';
             return false;
         }
 

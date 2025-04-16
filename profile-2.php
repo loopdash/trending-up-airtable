@@ -205,13 +205,13 @@ function profile_set_table_record()
             $data = [
                 "fields" => [
                     'Last Update' => date('Y-m-d H:i:s'),
-                    'Instagram Verified' => $fields['instagram_verified'] ?? null,
+                    // 'Instagram Verified' => $fields['instagram_verified'] ?? null,
                     'Instagram Followers' => $fields['instagram_followers'] ?? 0,
                     'Instagram Following' => $fields['instagram_following'] ?? 0,
-                    'Instagram Posts Count' => $fields['instagram_posts_count'] ?? 0,
-                    'TikTok Verified' => $fields['tiktok_verified'] ?? null,
+                    // 'Instagram Posts Count' => $fields['instagram_posts_count'] ?? 0,
+                    // 'TikTok Verified' => $fields['tiktok_verified'] ?? null,
                     'TikTok Followers' => $fields['tiktok_followers'] ?? 0,
-                    'TikTok Following' => $fields['tiktok_following'] ?? 0,
+                    // 'TikTok Following' => $fields['tiktok_following'] ?? 0,
                     'TikTok Posts Count' => $fields['tiktok_posts_count'] ?? 0,
                     'YouTube Followers' => $fields['youtube_following'] ?? 0,
                     'YouTube Posts Count' => $fields['youtube_posts_count'] ?? 0
