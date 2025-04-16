@@ -1,4 +1,9 @@
 <?php
+/* * Function to get the latest records from an Airtable base and table
+ * @param string $base_id The ID of the Airtable base
+ * @param string $table_id The ID of the Airtable table
+ * @return array|false An array of records or false on failure
+ */
 function get_air_records($base_id, $table_id)
 {
     global $API_AIRTABLE;
@@ -59,6 +64,12 @@ function get_air_records($base_id, $table_id)
     return $allRecords;
 }
 
+/* * Function to get the latest records from an Airtable base and table with a specific view
+ * @param string $base_id The ID of the Airtable base
+ * @param string $table_id The ID of the Airtable table
+ * @param string $view The name of the view to filter by
+ * @return array|false An array of records or false on failure
+ */
 function get_bright_snapshot_id($dataset_id, $url)
 {
     global $API_BRIGHTDATA;
@@ -86,6 +97,10 @@ function get_bright_snapshot_id($dataset_id, $url)
     }
 }
 
+/** Function to get the status of a Bright Data snapshot
+ * @param string $snapshot_id The ID of the snapshot
+ * @return bool True if the snapshot is ready, false otherwise
+ */
 function get_bright_snapshot_status($snapshot_id)
 {
     global $API_BRIGHTDATA;
@@ -112,6 +127,10 @@ function get_bright_snapshot_status($snapshot_id)
     }
 }
 
+/** Function to get the data of a Bright Data snapshot
+ * @param string $snapshot_id The ID of the snapshot
+ * @return string The data of the snapshot in JSON format
+ */
 function get_bright_snapshot_data($snapshot_id)
 {
     global $API_BRIGHTDATA;
