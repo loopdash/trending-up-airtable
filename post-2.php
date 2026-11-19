@@ -107,7 +107,7 @@ function post_gen_snapshot_data()
                         $dt_data = [
                             'like_count' => $formatted_data[0]['digg_count'] ?? 0,
                             'comment_count' => $formatted_data[0]['comment_count'] ?? 0,
-                            'view_count' => $formatted_data[0]['digg_count'] ?? 0
+                            'view_count' => $formatted_data[0]['play_count'] ?? 0
                         ];
                     }
 
@@ -217,15 +217,22 @@ function post_set_table_record()
                         "Content-Type: application/json"
                     ],
                     'method'  => 'PATCH',
-                    'content' => json_encode($data)
+                    'content' => json_encode($data),
+                    'ignore_errors' => true
                 ]
             ];
 
             $context  = stream_context_create($options);
             $result = file_get_contents($url, false, $context);
+            $status = isset($http_response_header[0]) ? $http_response_header[0] : '';
 
-            if ($result === FALSE) {
-                die('Error updating record');
+            // Stay under Airtable's 5 requests per second limit.
+            usleep(250000);
+
+            if ($result === FALSE || !preg_match('/\s2\d\d\s/', $status)) {
+                // Log and move on. One bad table or record shouldn't stop every other update.
+                error_log("Airtable update failed for $base_id/$table_id/$record_id: $status " . substr((string) $result, 0, 500));
+                continue;
             }
 
             $stmt = $pdo->prepare("DELETE FROM `post` WHERE  `record_id`= :record_id");

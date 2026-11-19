@@ -1,4 +1,40 @@
 <?php
+/**
+ * Normalize a table setting from config.php into a list of base/table pairs.
+ *
+ * Accepts the original single table ID (uses $default_base_id), or a list of
+ * ['base_id' => 'app...', 'table_id' => 'tbl...'] entries so tables in
+ * different bases can sync side by side.
+ *
+ * @param string $default_base_id Base used when an entry has no base_id
+ * @param string|array $setting A table ID, or a list of table entries
+ * @return array List of ['base_id' => ..., 'table_id' => ...]
+ */
+function get_table_targets($default_base_id, $setting)
+{
+    if (empty($setting)) {
+        return [];
+    }
+
+    if (is_string($setting)) {
+        return [['base_id' => $default_base_id, 'table_id' => $setting]];
+    }
+
+    $targets = [];
+    foreach ($setting as $entry) {
+        if (is_string($entry)) {
+            $targets[] = ['base_id' => $default_base_id, 'table_id' => $entry];
+        } elseif (!empty($entry['table_id'])) {
+            $targets[] = [
+                'base_id' => $entry['base_id'] ?? $default_base_id,
+                'table_id' => $entry['table_id'],
+            ];
+        }
+    }
+
+    return $targets;
+}
+
 /* * Function to get the latest records from an Airtable base and table
  * @param string $base_id The ID of the Airtable base
  * @param string $table_id The ID of the Airtable table
