@@ -44,21 +44,40 @@ function post_set_request($base_id, $table_id, $record_id, $platform, $url)
     }
 }
 
-function post_get_request($base_id, $table_id)
+function post_get_request($targets)
 {
     global $pdo;
     if (!$pdo) return false;
 
-    if (!$table_id) return;
+    if (empty($targets)) return;
 
-    $records = get_air_records($base_id, $table_id);
+    // Pull every table first, so one failed table doesn't wipe the queue for the others.
+    $pulled = [];
+    foreach ($targets as $target) {
+        $records = get_air_records($target['base_id'], $target['table_id']);
 
-    if ($records !== false) {
-        $stmt = $pdo->prepare("TRUNCATE `post`");
-        $stmt->execute();
+        if ($records === false) {
+            echo "Failed to retrieve records for " . $target['base_id'] . "/" . $target['table_id'] . ".\n";
+            continue;
+        }
+
+        $pulled[] = ['target' => $target, 'records' => $records];
+    }
+
+    if (empty($pulled)) {
+        return;
+    }
+
+    // Reset the queue once per run, not once per table.
+    $stmt = $pdo->prepare("TRUNCATE `post`");
+    $stmt->execute();
+
+    foreach ($pulled as $item) {
+        $base_id = $item['target']['base_id'];
+        $table_id = $item['target']['table_id'];
 
         try {
-            foreach ($records as $record) {
+            foreach ($item['records'] as $record) {
                 $record_id = $record['id'];
                 $fields = transformKeys($record['fields']);
 
@@ -73,12 +92,10 @@ function post_get_request($base_id, $table_id)
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }
-    } else {
-        echo "Failed to retrieve records.\n";
     }
 }
 
-post_get_request($base_id, $table_ids['POST']); // Stage 1: Get request list
+post_get_request(get_table_targets($base_id, $table_ids['POST'])); // Stage 1: Get request list
 
 
 function get_social_platform_name($url)

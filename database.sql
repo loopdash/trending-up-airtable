@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS `profile` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `base_id` varchar(100) NOT NULL,
   `table_id` varchar(100) NOT NULL,
   `record_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `platform` enum('INSTAGRAM','TIKTOK','YOUTUBE') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -12,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `base_id` varchar(100) NOT NULL,
   `table_id` varchar(100) NOT NULL,
   `record_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `platform` enum('INSTAGRAM','TIKTOK','YOUTUBE') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
